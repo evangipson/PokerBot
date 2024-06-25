@@ -1,7 +1,7 @@
 ﻿namespace PokerBot.View.Controllers.Interfaces
 {
-    public interface IApplicationController
-    {
-        void Run();
-    }
+	public interface IApplicationController
+	{
+		void Run();
+	}
 }

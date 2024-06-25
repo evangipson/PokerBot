@@ -2,10 +2,10 @@
 
 namespace PokerBot.Logic.Services.Interfaces
 {
-    public interface IHandService
-    {
-        Hand GetHand();
+	public interface IHandService
+	{
+		Hand GetHand();
 
-        Hand GetFlop();
+		Hand GetFlop();
 	}
 }

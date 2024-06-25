@@ -20,10 +20,10 @@ namespace PokerBot.Logic.Factories
 			[Suit.Diamonds] = "♢"
 		};
 
-        public CardFactory(ILogger<CardFactory> logger)
-        {
-            _logger = logger;
-            _ranks = Enumerable.Range(1, 13).Select(x =>
+		public CardFactory(ILogger<CardFactory> logger)
+		{
+			_logger = logger;
+			_ranks = Enumerable.Range(1, 13).Select(x =>
 			{
 				switch (x)
 				{
@@ -65,9 +65,9 @@ namespace PokerBot.Logic.Factories
 		public IEnumerable<Card> GetAllCards()
 		{
 			var allCards = new List<Card>();
-			foreach(var suit in Enum.GetValues<Suit>())
+			foreach (var suit in Enum.GetValues<Suit>())
 			{
-				foreach(var rank in _ranks)
+				foreach (var rank in _ranks)
 				{
 					allCards.Add(new Card
 					{

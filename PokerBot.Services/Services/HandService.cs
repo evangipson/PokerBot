@@ -7,7 +7,7 @@ using PokerBot.Logic.Services.Interfaces;
 
 namespace PokerBot.Logic.Services
 {
-    [Service(typeof(IHandService))]
+	[Service(typeof(IHandService))]
 	public class HandService : IHandService
 	{
 		private readonly ILogger<HandService> _logger;
