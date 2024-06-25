@@ -6,6 +6,7 @@ using PokerBot.Logic.Factories.Interfaces;
 
 namespace PokerBot.Logic.Factories
 {
+	/// <inheritdoc cref="IDeckFactory" />
 	[Service(typeof(IDeckFactory))]
 	public class DeckFactory : IDeckFactory
 	{
@@ -20,7 +21,10 @@ namespace PokerBot.Logic.Factories
 			_cardFactory = cardFactory;
 		}
 
-		public List<Card> Deck
+		/// <summary>
+		/// A deck of <see cref="Card"/>.
+		/// </summary>
+		private List<Card> Deck
 		{
 			get => _deck ?? (_deck = _cardFactory.GetAllCards().ToList());
 			set => _deck = value;

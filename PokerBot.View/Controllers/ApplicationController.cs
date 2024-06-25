@@ -6,6 +6,7 @@ using PokerBot.View.Controllers.Interfaces;
 
 namespace PokerBot.View.Controllers
 {
+	/// <inheritdoc cref="IApplicationController" />
 	[Service(typeof(IApplicationController))]
 	public class ApplicationController : IApplicationController
 	{

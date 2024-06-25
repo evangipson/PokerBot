@@ -11,6 +11,12 @@ namespace PokerBot.View
 {
 	internal class Program
 	{
+		/// <summary>
+		/// The main entry point for the application.
+		/// </summary>
+		/// <param name="args">
+		/// A list of arguments provided to the application.
+		/// </param>
 		private static void Main(string[] args)
 		{
 			Console.OutputEncoding = System.Text.Encoding.UTF8;

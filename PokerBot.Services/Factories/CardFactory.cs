@@ -6,6 +6,7 @@ using PokerBot.Logic.Factories.Interfaces;
 
 namespace PokerBot.Logic.Factories
 {
+	/// <inheritdoc cref="ICardFactory" />
 	[Service(typeof(ICardFactory))]
 	public class CardFactory : ICardFactory
 	{
@@ -80,8 +81,24 @@ namespace PokerBot.Logic.Factories
 			return allCards;
 		}
 
+		/// <summary>
+		/// Gets a random <see cref="Suit"/>, to attach to
+		/// a <see cref="Card"/>.
+		/// </summary>
+		/// <returns>
+		/// A random <see cref="Suit"/>.
+		/// </returns>
 		private Suit GetSuit() => Enum.GetValues<Suit>().ElementAt(_randomShuffler.Next(Enum.GetValues<Suit>().Count()));
 
+		/// <summary>
+		/// Gets the symbol for a <see cref="Suit"/>.
+		/// </summary>
+		/// <param name="suit">
+		/// The <see cref="Suit"/> to get the symbol for.
+		/// </param>
+		/// <returns>
+		/// A <see cref="Suit"/> symbol.
+		/// </returns>
 		private string GetSuitSymbol(Suit suit) => _suitSymbols[suit];
 	}
 }
