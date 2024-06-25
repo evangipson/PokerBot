@@ -3,16 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerBot.View", "PokerBot\PokerBot.View.csproj", "{A8A53C49-E570-49A7-96BD-6AA0B32A610E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{52838A34-F6AA-4A28-B264-E49775A93310} = {52838A34-F6AA-4A28-B264-E49775A93310}
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokerBot.Base", "PokerBot.Base\PokerBot.Base.csproj", "{CB2F0C6D-1E50-48C4-BA00-8ADBB0BFE92A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerBot.Base", "PokerBot.Base\PokerBot.Base.csproj", "{CB2F0C6D-1E50-48C4-BA00-8ADBB0BFE92A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokerBot.Domain", "Poker.Domain\PokerBot.Domain.csproj", "{52838A34-F6AA-4A28-B264-E49775A93310}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerBot.Domain", "Poker.Domain\PokerBot.Domain.csproj", "{52838A34-F6AA-4A28-B264-E49775A93310}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokerBot.Logic", "PokerBot.Services\PokerBot.Logic.csproj", "{D5AE7304-27DA-4CD2-BDE2-1577E895A812}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerBot.Logic", "PokerBot.Services\PokerBot.Logic.csproj", "{D5AE7304-27DA-4CD2-BDE2-1577E895A812}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokerBot.View", "PokerBot.View\PokerBot.View.csproj", "{4C627B83-C2FF-449A-B60F-910A1FF90D94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A8A53C49-E570-49A7-96BD-6AA0B32A610E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8A53C49-E570-49A7-96BD-6AA0B32A610E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8A53C49-E570-49A7-96BD-6AA0B32A610E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8A53C49-E570-49A7-96BD-6AA0B32A610E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CB2F0C6D-1E50-48C4-BA00-8ADBB0BFE92A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB2F0C6D-1E50-48C4-BA00-8ADBB0BFE92A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB2F0C6D-1E50-48C4-BA00-8ADBB0BFE92A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,6 +29,10 @@ Global
 		{D5AE7304-27DA-4CD2-BDE2-1577E895A812}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5AE7304-27DA-4CD2-BDE2-1577E895A812}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5AE7304-27DA-4CD2-BDE2-1577E895A812}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C627B83-C2FF-449A-B60F-910A1FF90D94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C627B83-C2FF-449A-B60F-910A1FF90D94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C627B83-C2FF-449A-B60F-910A1FF90D94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C627B83-C2FF-449A-B60F-910A1FF90D94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
