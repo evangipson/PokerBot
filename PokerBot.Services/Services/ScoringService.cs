@@ -6,27 +6,27 @@ using PokerBot.Logic.Services.Interfaces;
 
 namespace PokerBot.Logic.Services
 {
-    [Service(typeof(IScoringService))]
+	[Service(typeof(IScoringService))]
 	public class ScoringService : IScoringService
 	{
-        private readonly ILogger<ScoringService> _logger;
-        internal enum ScoreOrder
-        {
-            HighCard,
-            Pair,
-            TwoPair,
-            ThreeOfAKind,
-            Straight,
+		private readonly ILogger<ScoringService> _logger;
+		internal enum ScoreOrder
+		{
+			HighCard,
+			Pair,
+			TwoPair,
+			ThreeOfAKind,
+			Straight,
 			Flush,
 			FullHouse,
-            FourOfAKind,
-            StraightFlush,
-            RoyalFlush
-        }
+			FourOfAKind,
+			StraightFlush,
+			RoyalFlush
+		}
 
-        public ScoringService(ILogger<ScoringService> logger)
-        {
-            _logger = logger;
+		public ScoringService(ILogger<ScoringService> logger)
+		{
+			_logger = logger;
 		}
 
 		public int ScoreHand(IEnumerable<Card> hand)
@@ -49,10 +49,10 @@ namespace PokerBot.Logic.Services
 			// straight flush evaluation
 			if (handWithFlush.Any() && handWithStraight.Any())
 			{
-				if(handWithFlush.All(card => handWithStraight.Contains(card)))
+				if (handWithFlush.All(card => handWithStraight.Contains(card)))
 				{
 					// royal flush evaluation
-					if(handWithStraight.OrderByDescending(card => card.Rank).Last().Rank == 13 && handWithStraight.Any(card => card.Rank == 1))
+					if (handWithStraight.OrderByDescending(card => card.Rank).Last().Rank == 13 && handWithStraight.Any(card => card.Rank == 1))
 					{
 						_logger.LogInformation($"{nameof(ScoreHand)} info: Found royal flush in hand: {string.Join(", ", handWithStraight)}");
 						return 0;
@@ -117,19 +117,19 @@ namespace PokerBot.Logic.Services
 			// high card evaluation
 			_logger.LogInformation($"{nameof(ScoreHand)} info: Found high card in hand: {string.Join(", ", hand.OrderByDescending(card => card.Rank).Take(1))}");
 			return 0;
-        }
+		}
 
 		private IEnumerable<Card> HandHasMultiples(IEnumerable<Card> hand, int multipleAmount)
 		{
 			var handGroupedByRank = hand.GroupBy(card => card.Rank);
 			string logMessage = $"{nameof(ScoreHand)} info: Found {multipleAmount}-of-a-kind in hand:";
-			if(multipleAmount == 2)
+			if (multipleAmount == 2)
 			{
 				logMessage = $"{nameof(ScoreHand)} info: Found pair in hand:";
 			}
 
 			List<Card> multipleHands = new List<Card>();
-			foreach(var rankGroup in handGroupedByRank.Where(group => group.Count() >= multipleAmount))
+			foreach (var rankGroup in handGroupedByRank.Where(group => group.Count() >= multipleAmount))
 			{
 				//_logger.LogInformation($"{logMessage} {string.Join(", ", rankGroup)}");
 				multipleHands.AddRange(rankGroup);
@@ -159,18 +159,18 @@ namespace PokerBot.Logic.Services
 			return new List<Card>();
 		}
 
-        private IEnumerable<Card> HandHasFlush(IEnumerable<Card> hand)
-        {
-            var groupedHand = hand.OrderByDescending(card => card.Rank).GroupBy(card => card.Suit);
+		private IEnumerable<Card> HandHasFlush(IEnumerable<Card> hand)
+		{
+			var groupedHand = hand.OrderByDescending(card => card.Rank).GroupBy(card => card.Suit);
 			foreach (var suitCollection in groupedHand)
 			{
 				if (suitCollection.Count() >= 5)
 				{
 					//_logger.LogInformation($"{nameof(ScoreHand)} info: Found a flush in hand: {string.Join(", ", suitCollection)}");
 					return suitCollection;
-                }
-            }
-            return new List<Card>();
-        }
-    }
+				}
+			}
+			return new List<Card>();
+		}
+	}
 }
