@@ -107,7 +107,7 @@ namespace PokerBot.Logic.Services
 				return 0;
 			}
 
-			// two pair evaluation
+			// pair evaluation
 			if (pairs.Count() == 2)
 			{
 				_logger.LogInformation($"{nameof(ScoreHand)} info: Found pair in hand: {string.Join(", ", pairs.OrderByDescending(card => card.Rank).Take(4))}");
