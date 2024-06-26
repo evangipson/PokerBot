@@ -11,7 +11,7 @@ namespace PokerBot.Logic.Factories
 	public class CardFactory : ICardFactory
 	{
 		private readonly ILogger<CardFactory> _logger;
-		private readonly IEnumerable<string> _ranks;
+		private readonly IEnumerable<string> _rankSymbols;
 		private static readonly Random _randomShuffler = new Random();
 		private static Dictionary<Suit, string> _suitSymbols = new Dictionary<Suit, string>
 		{
@@ -24,7 +24,7 @@ namespace PokerBot.Logic.Factories
 		public CardFactory(ILogger<CardFactory> logger)
 		{
 			_logger = logger;
-			_ranks = Enumerable.Range(1, 13).Select(x =>
+			_rankSymbols = Enumerable.Range(1, 13).Select(x =>
 			{
 				switch (x)
 				{
@@ -55,11 +55,13 @@ namespace PokerBot.Logic.Factories
 		public Card MakeCard()
 		{
 			var suit = GetSuit();
+			var rank = _randomShuffler.Next(_rankSymbols.Count());
 			return new Card
 			{
 				Suit = suit,
 				SuitSymbol = GetSuitSymbol(suit),
-				Rank = _ranks.ElementAtOrDefault(_randomShuffler.Next(_ranks.Count())) ?? string.Empty,
+				Rank = rank,
+				RankSymbol = _rankSymbols.ElementAt(rank - 1)
 			};
 		}
 
@@ -68,13 +70,14 @@ namespace PokerBot.Logic.Factories
 			var allCards = new List<Card>();
 			foreach (var suit in Enum.GetValues<Suit>())
 			{
-				foreach (var rank in _ranks)
+				foreach (var rank in Enumerable.Range(1, 13))
 				{
 					allCards.Add(new Card
 					{
 						Suit = suit,
 						SuitSymbol = GetSuitSymbol(suit),
 						Rank = rank,
+						RankSymbol = _rankSymbols.ElementAt(rank - 1),
 					});
 				}
 			}

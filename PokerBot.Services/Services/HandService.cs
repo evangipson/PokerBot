@@ -30,12 +30,26 @@ namespace PokerBot.Logic.Services
 			return hand;
 		}
 
-		public Hand GetFlop()
+		public IEnumerable<Card> GetFlop()
 		{
-			var flop = new Hand();
-			_flopSize.ForEach(_ => flop.Cards.Add(_deckFactory.DrawCard()));
-			_logger.LogInformation($"{nameof(GetHand)} info: Drew flop: {string.Join(", ", flop.Cards)}");
+			var flop = new List<Card>();
+			_flopSize.ForEach(_ => flop.Add(_deckFactory.DrawCard()));
+			_logger.LogInformation($"{nameof(GetHand)} info: Drew flop: {string.Join(", ", flop)}");
 			return flop;
+		}
+
+		public Card GetRiver()
+		{
+			var riverCard = _deckFactory.DrawCard();
+			_logger.LogInformation($"{nameof(GetHand)} info: Drew river: {riverCard}");
+			return riverCard;
+		}
+
+		public Card GetTurn()
+		{
+			var turnCard = _deckFactory.DrawCard();
+			_logger.LogInformation($"{nameof(GetHand)} info: Drew turn: {turnCard}");
+			return turnCard;
 		}
 	}
 }

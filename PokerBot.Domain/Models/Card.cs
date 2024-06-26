@@ -6,10 +6,12 @@
 
 		public string SuitSymbol { get; set; } = string.Empty;
 
-		public string Rank { get; set; } = string.Empty;
+		public int Rank { get; set; }
+
+		public string RankSymbol { get; set; } = string.Empty;
 
 		public override string ToString() => $"{RankDisplay}{SuitSymbol}";
 
-		private string RankDisplay => Rank == "10" ? Rank : Rank.First().ToString();
+		private string RankDisplay => RankSymbol == "10" ? RankSymbol : RankSymbol.First().ToString();
     }
 }

@@ -36,7 +36,7 @@ namespace PokerBot.Logic.Factories
 			var deckCard = Deck.ElementAt(nextCard);
 
 			Deck.RemoveAt(nextCard);
-			_logger.LogInformation($"{nameof(DrawCard)} info: Deck has {Deck.Count()} cards remaining.");
+			//_logger.LogInformation($"{nameof(DrawCard)} info: Deck has {Deck.Count()} cards remaining.");
 			return deckCard;
 		}
 	}

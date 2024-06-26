@@ -12,17 +12,23 @@ namespace PokerBot.View.Controllers
 	{
 		private readonly ILogger<ApplicationController> _logger;
 		private readonly IHandService _handService;
+		private readonly IScoringService _scoringService;
 
-		public ApplicationController(ILogger<ApplicationController> logger, IHandService handService)
+		public ApplicationController(ILogger<ApplicationController> logger, IHandService handService, IScoringService scoringService)
 		{
 			_logger = logger;
 			_handService = handService;
+			_scoringService = scoringService;
 		}
 
 		public void Run()
 		{
-			_handService.GetHand();
-			_handService.GetFlop();
+			var totalHand = _handService.GetHand().Cards.ToList();
+			totalHand.AddRange(_handService.GetFlop());
+			totalHand.Add(_handService.GetRiver());
+			totalHand.Add(_handService.GetTurn());
+
+			_scoringService.ScoreHand(totalHand);
 		}
 	}
 }

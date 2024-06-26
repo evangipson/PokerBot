@@ -23,6 +23,10 @@ namespace PokerBot.Logic.Services.Interfaces
 		/// <returns>
 		/// A flop of <see cref="Card"/>.
 		/// </returns>
-		Hand GetFlop();
+		IEnumerable<Card> GetFlop();
+
+		Card GetRiver();
+
+		Card GetTurn();
 	}
 }
