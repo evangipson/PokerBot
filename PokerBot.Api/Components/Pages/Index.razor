@@ -4,22 +4,14 @@
 
 <PageTitle>PokerBot</PageTitle>
 
-<p>It's poker bot!</p>
+<h1>PokerBot</h1>
+
 @if(Cards == null)
 {
-	<p>Loading initial hand...</p>
+	<a class="poker-bot__button" @onclick=ShowNewHand>Deal a new hand</a>
 	return;
 }
-
-<p>Initial hand is:</p>
-<ul class="poker-bot__hand">
-	@foreach(var card in Cards)
-	{
-		<li class="poker-bot__card">@($"{card}")</li>
-	}
-</ul>
-
-@if(Cards?.Count < 5)
+else if (Cards?.Count < 5)
 {
 	<a class="poker-bot__button" @onclick=ShowFlop>Show me the flop</a>
 }
@@ -31,12 +23,23 @@ else if (Cards?.Count < 7)
 {
 	<a class="poker-bot__button" @onclick=ShowTurn>Show me the turn</a>
 }
-else if (HandScore == 0)
+else if (HandScore?.ScoreRank == 0)
 {
 	<a class="poker-bot__button" @onclick=ScoreHand>Score the hand</a>
 }
 else
 {
-	<p>Score: @HandScoreToHand[HandScore]</p>
-	<a class="poker-bot__button" @onclick=ShowNewHand>Show a new hand</a>
+	<a class="poker-bot__button" @onclick=ShowNewHand>Deal a new hand</a>
+}
+
+<div class="poker-bot__hand">
+	@foreach(var card in Cards!)
+	{
+		<Card CurrentCard=@card HandScore=@HandScore />
+	}
+</div>
+
+@if(HandScore?.ScoreRank != 0)
+{
+	<p class="poker-bot__hand-score">Score: @GetHandScoreDisplay()</p>
 }

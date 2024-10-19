@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokerBot.Logic", "PokerBot.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokerBot.Domain", "PokerBot.Domain\PokerBot.Domain.csproj", "{7F682DAA-8AF1-408C-BA0C-61A1C4686604}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerBot.Api", "PokerBot.Api\PokerBot.Api.csproj", "{D443C2E9-AC95-4CCF-A4F1-1F5A0FEF3406}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokerBot.Api", "PokerBot.Api\PokerBot.Api.csproj", "{D443C2E9-AC95-4CCF-A4F1-1F5A0FEF3406}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

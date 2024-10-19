@@ -39,4 +39,8 @@
     <UpToDateCheckInput Remove="Styles\base\links.scss" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Styles\base\layout.scss" />
+  </ItemGroup>
+
 </Project>

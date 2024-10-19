@@ -12,6 +12,6 @@
 
 		public override string ToString() => $"{RankDisplay}{SuitSymbol}";
 
-		private string RankDisplay => RankSymbol == "10" ? RankSymbol : RankSymbol.First().ToString();
+		public string RankDisplay => RankSymbol == "10" ? RankSymbol : RankSymbol.First().ToString();
     }
 }

@@ -1,0 +1,11 @@
+﻿@namespace PokerBot.Api.ViewModels
+
+@if(CurrentCard != null)
+{
+	<div class="@GetCardClass()" data-card=@CurrentCard.RankDisplay data-rank=@CurrentCard.Rank data-royalty=@GetRoyalty()>
+		@foreach (var rankSymbol in Enumerable.Range(0, SuitDisplayTimes))
+		{
+			<span data-royalty=@GetRoyalty()>@CurrentCard.SuitSymbol</span>
+		}
+	</div>
+}

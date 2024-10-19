@@ -7,6 +7,7 @@
 		public IList<Card> Cards
 		{
 			get => _cards ??= [];
+			set => _cards = value;
 		}
 	}
 }

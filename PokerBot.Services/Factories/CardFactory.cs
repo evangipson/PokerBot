@@ -10,10 +10,10 @@ namespace PokerBot.Logic.Factories
 		private static readonly Random _randomShuffler = new();
 		private static readonly Dictionary<Suit, string> _suitSymbols = new()
 		{
-			[Suit.Clubs] = "♧",
-			[Suit.Spades] = "♤",
-			[Suit.Hearts] = "♡",
-			[Suit.Diamonds] = "♢"
+			[Suit.Clubs] = "♣",
+			[Suit.Spades] = "♠",
+			[Suit.Hearts] = "♥",
+			[Suit.Diamonds] = "♦"
 		};
 		private readonly IEnumerable<string> _rankSymbols = Enumerable.Range(1, 13).Select(x =>
 		{
