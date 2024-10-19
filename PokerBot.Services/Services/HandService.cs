@@ -1,14 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 
-using PokerBot.Base.DependencyInjection;
 using PokerBot.Domain.Models;
-using PokerBot.Logic.Factories.Interfaces;
-using PokerBot.Logic.Services.Interfaces;
+using PokerBot.Logic.Factories;
 
 namespace PokerBot.Logic.Services
 {
-	/// <inheritdoc cref="IHandService" />
-	[Service(typeof(IHandService))]
+    /// <inheritdoc cref="IHandService" />
 	public class HandService : IHandService
 	{
 		private readonly ILogger<HandService> _logger;

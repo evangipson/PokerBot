@@ -1,0 +1,9 @@
+﻿.poker-bot__card {
+	list-style-type: none;
+	border: 1px solid grey;
+	height: 200px;
+	width: calc(20% - 16px);
+	padding: 8px;
+	border-radius: 12px;
+	box-sizing: border-box;
+}

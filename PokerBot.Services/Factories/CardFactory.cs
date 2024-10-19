@@ -1,56 +1,32 @@
 ﻿using Microsoft.Extensions.Logging;
 
-using PokerBot.Base.DependencyInjection;
 using PokerBot.Domain.Models;
-using PokerBot.Logic.Factories.Interfaces;
 
 namespace PokerBot.Logic.Factories
 {
-	/// <inheritdoc cref="ICardFactory" />
-	[Service(typeof(ICardFactory))]
-	public class CardFactory : ICardFactory
+    /// <inheritdoc cref="ICardFactory" />
+	public class CardFactory(ILogger<CardFactory> logger) : ICardFactory
 	{
-		private readonly ILogger<CardFactory> _logger;
-		private readonly IEnumerable<string> _rankSymbols;
-		private static readonly Random _randomShuffler = new Random();
-		private static Dictionary<Suit, string> _suitSymbols = new Dictionary<Suit, string>
+		private static readonly Random _randomShuffler = new();
+		private static readonly Dictionary<Suit, string> _suitSymbols = new()
 		{
 			[Suit.Clubs] = "♧",
 			[Suit.Spades] = "♤",
 			[Suit.Hearts] = "♡",
 			[Suit.Diamonds] = "♢"
 		};
-
-		public CardFactory(ILogger<CardFactory> logger)
+		private readonly IEnumerable<string> _rankSymbols = Enumerable.Range(1, 13).Select(x =>
 		{
-			_logger = logger;
-			_rankSymbols = Enumerable.Range(1, 13).Select(x =>
+			return x switch
 			{
-				switch (x)
-				{
-					case 1:
-						return "Ace";
-					case 2:
-					case 3:
-					case 4:
-					case 5:
-					case 6:
-					case 7:
-					case 8:
-					case 9:
-					case 10:
-						return x.ToString();
-					case 11:
-						return "Jack";
-					case 12:
-						return "Queen";
-					case 13:
-						return "King";
-					default:
-						return "Joker";
-				}
-			});
-		}
+				1 => "Ace",
+				2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 => x.ToString(),
+				11 => "Jack",
+				12 => "Queen",
+				13 => "King",
+				_ => "Joker",
+			};
+		});
 
 		public Card MakeCard()
 		{
@@ -65,43 +41,17 @@ namespace PokerBot.Logic.Factories
 			};
 		}
 
-		public IEnumerable<Card> GetAllCards()
-		{
-			var allCards = new List<Card>();
-			foreach (var suit in Enum.GetValues<Suit>())
+		public IEnumerable<Card> GetAllCards() => Enum.GetValues<Suit>()
+			.SelectMany(suit => Enumerable.Range(1, 13).Select(rank => new Card()
 			{
-				foreach (var rank in Enumerable.Range(1, 13))
-				{
-					allCards.Add(new Card
-					{
-						Suit = suit,
-						SuitSymbol = GetSuitSymbol(suit),
-						Rank = rank,
-						RankSymbol = _rankSymbols.ElementAt(rank - 1),
-					});
-				}
-			}
-			return allCards;
-		}
+				Suit = suit,
+				SuitSymbol = GetSuitSymbol(suit),
+				Rank = rank,
+				RankSymbol = _rankSymbols.ElementAt(rank - 1),
+			}));
 
-		/// <summary>
-		/// Gets a random <see cref="Suit"/>, to attach to
-		/// a <see cref="Card"/>.
-		/// </summary>
-		/// <returns>
-		/// A random <see cref="Suit"/>.
-		/// </returns>
-		private Suit GetSuit() => Enum.GetValues<Suit>().ElementAt(_randomShuffler.Next(Enum.GetValues<Suit>().Count()));
+		private static Suit GetSuit() => Enum.GetValues<Suit>().ElementAt(_randomShuffler.Next(Enum.GetValues<Suit>().Count()));
 
-		/// <summary>
-		/// Gets the symbol for a <see cref="Suit"/>.
-		/// </summary>
-		/// <param name="suit">
-		/// The <see cref="Suit"/> to get the symbol for.
-		/// </param>
-		/// <returns>
-		/// A <see cref="Suit"/> symbol.
-		/// </returns>
-		private string GetSuitSymbol(Suit suit) => _suitSymbols[suit];
+		private static string GetSuitSymbol(Suit suit) => _suitSymbols[suit];
 	}
 }

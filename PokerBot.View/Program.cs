@@ -3,13 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using PokerBot.Base.DependencyInjection;
-using PokerBot.Logic.Factories.Interfaces;
-using PokerBot.Logic.Services.Interfaces;
+using PokerBot.Logic.Factories;
+using PokerBot.Logic.Services;
 using PokerBot.View.Controllers.Interfaces;
 
 namespace PokerBot.View
 {
-	internal class Program
+    internal class Program
 	{
 		/// <summary>
 		/// The main entry point for the application.

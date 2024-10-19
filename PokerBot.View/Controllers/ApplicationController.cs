@@ -1,13 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using PokerBot.Base.DependencyInjection;
+using PokerBot.Domain.Models;
+using PokerBot.Logic.Services;
 using PokerBot.Logic.Services.Interfaces;
 using PokerBot.View.Controllers.Interfaces;
 
 namespace PokerBot.View.Controllers
 {
-	/// <inheritdoc cref="IApplicationController" />
-	[Service(typeof(IApplicationController))]
+    /// <inheritdoc cref="IApplicationController" />
+    [Service(typeof(IApplicationController))]
 	public class ApplicationController : IApplicationController
 	{
 		private readonly ILogger<ApplicationController> _logger;
@@ -23,7 +25,7 @@ namespace PokerBot.View.Controllers
 
 		public void Run()
 		{
-			var totalHand = _handService.GetHand().Cards.ToList();
+			List<Card> totalHand = [ .. _handService.GetHand().Cards];
 			totalHand.AddRange(_handService.GetFlop());
 			totalHand.Add(_handService.GetRiver());
 			totalHand.Add(_handService.GetTurn());

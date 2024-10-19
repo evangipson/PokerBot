@@ -1,6 +1,6 @@
 ﻿using PokerBot.Domain.Models;
 
-namespace PokerBot.Logic.Services.Interfaces
+namespace PokerBot.Logic.Services
 {
 	public interface IScoringService
 	{

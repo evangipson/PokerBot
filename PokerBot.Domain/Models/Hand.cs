@@ -6,7 +6,7 @@
 
 		public IList<Card> Cards
 		{
-			get => _cards ?? (_cards = new List<Card>());
+			get => _cards ??= [];
 		}
 	}
 }

@@ -1,0 +1,42 @@
+﻿@page "/"
+@namespace PokerBot.Api.ViewModels
+@rendermode InteractiveServer
+
+<PageTitle>PokerBot</PageTitle>
+
+<p>It's poker bot!</p>
+@if(Cards == null)
+{
+	<p>Loading initial hand...</p>
+	return;
+}
+
+<p>Initial hand is:</p>
+<ul class="poker-bot__hand">
+	@foreach(var card in Cards)
+	{
+		<li class="poker-bot__card">@($"{card}")</li>
+	}
+</ul>
+
+@if(Cards?.Count < 5)
+{
+	<a class="poker-bot__button" @onclick=ShowFlop>Show me the flop</a>
+}
+else if (Cards?.Count < 6)
+{
+	<a class="poker-bot__button" @onclick=ShowRiver>Show me the river</a>
+}
+else if (Cards?.Count < 7)
+{
+	<a class="poker-bot__button" @onclick=ShowTurn>Show me the turn</a>
+}
+else if (HandScore == 0)
+{
+	<a class="poker-bot__button" @onclick=ScoreHand>Score the hand</a>
+}
+else
+{
+	<p>Score: @HandScoreToHand[HandScore]</p>
+	<a class="poker-bot__button" @onclick=ShowNewHand>Show a new hand</a>
+}
