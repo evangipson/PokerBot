@@ -3,8 +3,8 @@
 	grid-auto-flow: row;
 	grid-template-columns: repeat(5, 1fr);
 	grid-template-rows: repeat(2, 1fr);
-	gap: 16px;
-	margin-top: 24px;
+	gap: var(--gutter);
+	margin-top: var(--gutter-large);
 
 	.poker-bot__card {
 		grid-row: 2;

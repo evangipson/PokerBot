@@ -7,6 +7,36 @@ namespace PokerBot.Logic.Services
 	/// <inheritdoc cref="IScoringService"/>
 	public class ScoringService(ILogger<ScoringService> logger) : IScoringService
 	{
+		private static readonly Dictionary<int, string> _cardRankDisplay = new()
+		{
+			[1] = "Ace",
+			[2] = "Two",
+			[3] = "Three",
+			[4] = "Four",
+			[5] = "Five",
+			[6] = "Sixe",
+			[7] = "Seven",
+			[8] = "Eight",
+			[9] = "Nine",
+			[10] = "Ten",
+			[11] = "Jack",
+			[12] = "Queen",
+			[13] = "King",
+		};
+		private static readonly Dictionary<Score, string> _handScoreDisplay = new()
+		{
+			[Score.HighCard] = "High card",
+			[Score.Pair] = "Pair",
+			[Score.TwoPair] = "Two pair",
+			[Score.ThreeOfAKind] = "Three of a kind",
+			[Score.Straight] = "Straight",
+			[Score.Flush] = "Flush",
+			[Score.FullHouse] = "Full house",
+			[Score.FourOfAKind] = "Four of a kind",
+			[Score.StraightFlush] = "Straight flush",
+			[Score.RoyalFlush] = "Royal flush",
+		};
+
 		public HandScore ScoreHand(IEnumerable<Card> hand)
 		{
 			var handWithFlush = HandHasFlush(hand);
@@ -178,6 +208,19 @@ namespace PokerBot.Logic.Services
 				ScoreRank = 1
 			};
 		}
+
+		public string GetHandScoreDisplay(HandScore scoredHand) => scoredHand.Score switch
+		{
+			Score.Pair => $"{_handScoreDisplay[scoredHand.Score]} of {_cardRankDisplay[scoredHand.Hand!.Cards.First().Rank]}s",
+			Score.TwoPair => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.First().Rank]}s and {_cardRankDisplay[scoredHand.Hand.Cards.Last().Rank]}s",
+			Score.ThreeOfAKind => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.First().Rank]}s",
+			Score.FullHouse => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.Last().Rank]}s full of {_cardRankDisplay[scoredHand.Hand.Cards.First().Rank]}s",
+			Score.Straight => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.First().Rank]} to {_cardRankDisplay[scoredHand.Hand.Cards.Last().Rank]}",
+			Score.Flush => $"{_handScoreDisplay[scoredHand.Score]} of {Suit.GetName(scoredHand.Hand!.Cards.First().Suit)}",
+			Score.StraightFlush => $"{_handScoreDisplay[scoredHand.Score]}, {Suit.GetName(scoredHand.Hand!.Cards.First().Suit)} with {_cardRankDisplay[scoredHand.Hand.Cards.First().Rank]} to {_cardRankDisplay[scoredHand.Hand.Cards.Last().Rank]}",
+			Score.RoyalFlush => $"{_handScoreDisplay[scoredHand.Score]} of {Suit.GetName(scoredHand.Hand!.Cards.First().Suit)}",
+			_ => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.First().Rank]} of {scoredHand.Hand.Cards.First().Suit}"
+		};
 
 		private List<Card> HandHasMultiples(IEnumerable<Card> hand, int multipleAmount)
 		{

@@ -1,7 +1,9 @@
 ﻿.poker-bot {
 	display: flex;
 	flex-flow: column nowrap;
+	font-family: var(--font-family);
+	color: var(--font-color);
 	max-width: 800px;
-	padding: 0 16px;
+	padding: 0 var(--gutter);
 	margin: 0 auto;
 }

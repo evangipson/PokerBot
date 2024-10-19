@@ -1,5 +1,7 @@
-﻿@forward 'base/reset.scss';
+﻿@forward 'base/fonts.scss';
+@forward 'base/reset.scss';
 @forward 'base/layout.scss';
 @forward 'base/links.scss';
+@forward 'base/variables.scss';
 @forward 'modules/card.scss';
 @forward 'modules/hand.scss';
