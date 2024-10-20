@@ -54,36 +54,34 @@ namespace PokerBot.Logic.Services
 			}
 
 			// straight flush evaluation
-			if (handWithFlush.Count != 0 && handWithStraight.Count != 0)
+			var handHasStraightAndFlush = handWithFlush.Count != 0 && handWithStraight.Count != 0;
+			if (handHasStraightAndFlush && handWithStraight.All(card => handWithFlush.Any(flushCard => card.Rank == flushCard.Rank)))
 			{
-				if (handWithFlush.All(card => handWithStraight.Contains(card)))
+				// royal flush evaluation
+				if (handWithStraight.First().Rank == 1 && handWithStraight.Last().Rank == 10)
 				{
-					// royal flush evaluation
-					if (handWithStraight.OrderByDescending(card => card.Rank).Last().Rank == 13 && handWithStraight.Any(card => card.Rank == 1))
-					{
-						logger.LogInformation($"{nameof(ScoreHand)} info: Found royal flush in hand: {string.Join(", ", handWithStraight)}");
-						return new()
-						{
-							Hand = new()
-							{
-								Cards = handWithStraight
-							},
-							Score = Score.RoyalFlush,
-							ScoreRank = 10
-						};
-					}
-
-					logger.LogInformation($"{nameof(ScoreHand)} info: Found straight flush in hand: {string.Join(", ", handWithStraight)}");
+					logger.LogInformation($"{nameof(ScoreHand)} info: Found royal flush in hand: {string.Join(", ", handWithStraight)}");
 					return new()
 					{
 						Hand = new()
 						{
-							Cards = handWithFlush
+							Cards = handWithStraight
 						},
-						Score = Score.StraightFlush,
-						ScoreRank = 9
+						Score = Score.RoyalFlush,
+						ScoreRank = 10
 					};
 				}
+
+				logger.LogInformation($"{nameof(ScoreHand)} info: Found straight flush in hand: {string.Join(", ", handWithStraight)}");
+				return new()
+				{
+					Hand = new()
+					{
+						Cards = handWithFlush
+					},
+					Score = Score.StraightFlush,
+					ScoreRank = 9
+				};
 			}
 
 			// four of a kind evaluation
@@ -151,12 +149,12 @@ namespace PokerBot.Logic.Services
 			// straight evaluation
 			if (handWithStraight.Count != 0)
 			{
-				logger.LogInformation($"{nameof(ScoreHand)} info: Found straight in hand: {string.Join(", ", handWithStraight.OrderByDescending(card => card.Rank).Take(5))}");
+				logger.LogInformation($"{nameof(ScoreHand)} info: Found straight in hand: {string.Join(", ", handWithStraight.Take(5))}");
 				return new()
 				{
 					Hand = new()
 					{
-						Cards = [.. handWithStraight.OrderByDescending(card => card.Rank).Take(5)]
+						Cards = [.. handWithStraight.Take(5)]
 					},
 					Score = Score.Straight,
 					ScoreRank = 4
@@ -249,7 +247,24 @@ namespace PokerBot.Logic.Services
 				.SelectMany(grouping => grouping.Take(1))
 				.ToList();
 
-			for(var i = 0; i < orderedSingleRankedCards.Count - 4; i++)
+			// handle wrapped straights (i.e.: 10 - A)
+			var handContainsAce = orderedSingleRankedCards.Any(card => card.Rank == 1);
+			var handContainsAllHighestRanks = orderedSingleRankedCards.Where(card => card.Rank >= 10).Count() == 4;
+			if(handContainsAce && handContainsAllHighestRanks)
+			{
+				var newHandOrder = hand.OrderByDescending(card => card.Rank)
+					.GroupBy(card => card.Rank)
+					.SelectMany(grouping => grouping.Take(1));
+				var highestRanks = newHandOrder.Take(4);
+				if(highestRanks.First().Rank - highestRanks.Last().Rank == 3)
+				{
+					var ace = newHandOrder.TakeLast(1).Single();
+					return [ ace, .. highestRanks ];
+				}
+			}
+
+			// handle sequential straights
+			for (var i = 0; i < orderedSingleRankedCards.Count - 4; i++)
 			{
 				IEnumerable<Card> sliceOfOrderedRanks = [.. orderedSingleRankedCards.Take(new Range(i, i + 5))];
 				if (sliceOfOrderedRanks.First().Rank - sliceOfOrderedRanks.Last().Rank == 4)
