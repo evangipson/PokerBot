@@ -215,6 +215,7 @@ namespace PokerBot.Logic.Services
 			Score.FullHouse => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.Last().Rank]}s full of {_cardRankDisplay[scoredHand.Hand.Cards.First().Rank]}s",
 			Score.Straight => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.Last().Rank]} to {_cardRankDisplay[scoredHand.Hand.Cards.First().Rank]}",
 			Score.Flush => $"{_handScoreDisplay[scoredHand.Score]} of {Suit.GetName(scoredHand.Hand!.Cards.First().Suit)}",
+			Score.FourOfAKind => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.First().Rank]}s",
 			Score.StraightFlush => $"{_handScoreDisplay[scoredHand.Score]}, {Suit.GetName(scoredHand.Hand!.Cards.First().Suit)} with {_cardRankDisplay[scoredHand.Hand.Cards.First().Rank]} to {_cardRankDisplay[scoredHand.Hand.Cards.Last().Rank]}",
 			Score.RoyalFlush => $"{_handScoreDisplay[scoredHand.Score]} of {Suit.GetName(scoredHand.Hand!.Cards.First().Suit)}",
 			Score.HighCard => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.First().Rank]} of {scoredHand.Hand.Cards.First().Suit}",
