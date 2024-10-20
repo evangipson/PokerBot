@@ -5,6 +5,7 @@
 	background: var(--background-color);
 }
 
-ul, ol {
+p, h1, h2, h3, h4, h5, h6, ul, ol, a {
 	padding: 0;
+	margin: 0;
 }

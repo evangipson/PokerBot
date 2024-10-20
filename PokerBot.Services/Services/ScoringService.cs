@@ -209,7 +209,7 @@ namespace PokerBot.Logic.Services
 			};
 		}
 
-		public string GetHandScoreDisplay(HandScore scoredHand) => scoredHand.Score switch
+		public string GetHandScoreDisplay(HandScore? scoredHand = null) => scoredHand?.Score switch
 		{
 			Score.Pair => $"{_handScoreDisplay[scoredHand.Score]} of {_cardRankDisplay[scoredHand.Hand!.Cards.First().Rank]}s",
 			Score.TwoPair => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.First().Rank]}s and {_cardRankDisplay[scoredHand.Hand.Cards.Last().Rank]}s",
@@ -219,7 +219,8 @@ namespace PokerBot.Logic.Services
 			Score.Flush => $"{_handScoreDisplay[scoredHand.Score]} of {Suit.GetName(scoredHand.Hand!.Cards.First().Suit)}",
 			Score.StraightFlush => $"{_handScoreDisplay[scoredHand.Score]}, {Suit.GetName(scoredHand.Hand!.Cards.First().Suit)} with {_cardRankDisplay[scoredHand.Hand.Cards.First().Rank]} to {_cardRankDisplay[scoredHand.Hand.Cards.Last().Rank]}",
 			Score.RoyalFlush => $"{_handScoreDisplay[scoredHand.Score]} of {Suit.GetName(scoredHand.Hand!.Cards.First().Suit)}",
-			_ => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.First().Rank]} of {scoredHand.Hand.Cards.First().Suit}"
+			Score.HighCard => $"{_handScoreDisplay[scoredHand.Score]}, {_cardRankDisplay[scoredHand.Hand!.Cards.First().Rank]} of {scoredHand.Hand.Cards.First().Suit}",
+			_ or null => string.Empty
 		};
 
 		private List<Card> HandHasMultiples(IEnumerable<Card> hand, int multipleAmount)
@@ -244,19 +245,24 @@ namespace PokerBot.Logic.Services
 		private static List<Card> HandHasStraight(IEnumerable<Card> hand)
 		{
 			var orderedHand = hand.OrderByDescending(card => card.Rank);
-			for (var i = 0; i < orderedHand.Count() - 5; i++)
+			List<Card> orderedCardList = [];
+			for (var i = 0; i < orderedHand.Count() - 4; i++)
 			{
-				var skipped = orderedHand.Skip(i);
-				var possibleStraight = skipped.Take(5);
-				var orderedCardList = possibleStraight.ToList();
-				var doubles = orderedCardList.GroupBy(card => card.Rank).Count(group => group.Count() > 1);
-				var inARow = orderedCardList[4].Rank - orderedCardList[0].Rank >= 4;
+				var possibleStraight = orderedHand.Skip(i).Take(5);
+				orderedCardList = possibleStraight.ToList();
 
-				if (doubles == 0 && inARow)
+				var inARow = orderedCardList.All(card => card.Rank == orderedCardList[0].Rank - i);
+
+				if (inARow)
 				{
-					//_logger.LogInformation($"{nameof(ScoreHand)} info: Found a straight in hand: {string.Join(", ", orderedCardList)}");
 					return orderedCardList;
 				}
+			}
+
+			// Check for Ace-high straight
+			if (orderedCardList.Any(card => card.Rank == 1) && orderedCardList.Skip(1).All(card => card.Rank == orderedCardList[1].Rank - 1))
+			{
+				return orderedCardList;
 			}
 
 			return [];

@@ -1,4 +1,6 @@
-﻿using PokerBot.Api.Components;
+﻿using System.Text;
+
+using PokerBot.Api.Components;
 using PokerBot.Logic.Factories;
 using PokerBot.Logic.Services;
 
@@ -41,6 +43,8 @@ namespace PokerBot.Api.Extensions
 		/// </returns>
 		internal static WebApplication ConfigureApplication(this WebApplication webApplication)
 		{
+			Console.OutputEncoding = Encoding.UTF8;
+
 			webApplication.UseExceptionHandler("/error");
 			webApplication.AddHttps();
 			webApplication.UseStaticFiles();

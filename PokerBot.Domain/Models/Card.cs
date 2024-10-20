@@ -4,14 +4,14 @@
 	{
 		public Suit Suit { get; set; }
 
-		public string SuitSymbol { get; set; } = string.Empty;
-
 		public int Rank { get; set; }
+
+		public string SuitSymbol { get; set; } = string.Empty;
 
 		public string RankSymbol { get; set; } = string.Empty;
 
-		public override string ToString() => $"{RankDisplay}{SuitSymbol}";
-
 		public string RankDisplay => RankSymbol == "10" ? RankSymbol : RankSymbol.First().ToString();
-    }
+
+		public override string ToString() => $"{RankDisplay}{SuitSymbol}";
+	}
 }

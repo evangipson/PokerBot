@@ -6,6 +6,6 @@ namespace PokerBot.Logic.Services
 	{
 		HandScore ScoreHand(IEnumerable<Card> hand);
 
-		string GetHandScoreDisplay(HandScore scoredHand);
+		string GetHandScoreDisplay(HandScore? scoredHand = null);
 	}
 }

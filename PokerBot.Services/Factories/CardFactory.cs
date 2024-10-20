@@ -50,7 +50,7 @@ namespace PokerBot.Logic.Factories
 				RankSymbol = _rankSymbols.ElementAt(rank - 1),
 			}));
 
-		private static Suit GetSuit() => Enum.GetValues<Suit>().ElementAt(_randomShuffler.Next(Enum.GetValues<Suit>().Count()));
+		private static Suit GetSuit() => Enum.GetValues<Suit>().ElementAt(_randomShuffler.Next(Enum.GetValues<Suit>().Length));
 
 		private static string GetSuitSymbol(Suit suit) => _suitSymbols[suit];
 	}
