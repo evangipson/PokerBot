@@ -6,7 +6,7 @@
 	position: relative;
 	list-style-type: none;
 	height: var(--card-height);
-	width: calc(var(--card-width) - var(--gutter));
+	width: var(--card-width);
 	padding: 8px;
 	border-radius: 8px;
 	border: 2px var(--font-color) solid;
@@ -16,7 +16,8 @@
 	line-height: 0;
 	color: var(--background-color);
 	transform: translateY(0);
-	transition: transform 0.2s ease-in-out;
+	filter: brightness(1);
+	transition: transform 0.25s ease-in-out, filter 0.15s ease-in-out;
 	background: var(--font-color);
 
 	span {

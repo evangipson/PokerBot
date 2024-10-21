@@ -3,7 +3,7 @@
 	flex-flow: column nowrap;
 	font-family: var(--font-family);
 	color: var(--font-color);
-	max-width: 800px;
+	max-width: var(--site-container);
 	padding: 0 var(--gutter);
 	margin: var(--gutter-large) auto 0;
 	gap: var(--gutter-large);

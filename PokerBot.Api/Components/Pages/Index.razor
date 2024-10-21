@@ -9,7 +9,7 @@
 <a class="poker-bot__button" @onclick=@OnNextCard.Invoke>@NextCardButtonText</a>
 @if (Cards?.Count > 0)
 {
-	<div class="poker-bot__hand">
+	<div class=@HandClass>
 		@foreach (var card in Cards)
 		{
 			<Card CurrentCard=@card HandScore=@HandScore />

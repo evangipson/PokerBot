@@ -21,24 +21,30 @@ namespace PokerBot.Api.ViewModels
 
 		public HandScore? HandScore;
 
+		public bool CardsScored => HandScore?.Hand?.Cards?.Count > 0;
+
+		public string HandClass => CardsScored
+			? "poker-bot__hand poker-bot__hand--scored"
+			: "poker-bot__hand";
+
 		public string? HandScoreDisplay => ScoringService?.GetHandScoreDisplay(HandScore);
 
 		public string NextCardButtonText => Cards?.Count switch
 		{
-			<= 2 => "Show the flop",
+			0 or null => "Draw new hand",
+			<= 3 => "Show the flop",
 			<= 5 => "Show the river",
 			<= 6 => "Show the turn",
-			<= 7 => HandScore == default ? "Get hand score" : "Draw new hand",
-			_ => "Draw new hand"
+			_ => HandScore == default ? "Get hand score" : "Draw new hand",
 		};
 
 		public Action OnNextCard => Cards?.Count switch
 		{
-			<= 2 => ShowFlop,
+			0 or null => ShowNewHand,
+			<= 3 => ShowFlop,
 			<= 5 => ShowRiver,
 			<= 6 => ShowTurn,
-			<= 7 => HandScore == default ? ScoreHand : ShowNewHand,
-			_ => ShowNewHand
+			_ => HandScore == default ? ScoreHand : ShowNewHand,
 		};
 
 		public void ShowFlop() => Cards?.AddRange([.. HandService!.GetFlop()]);

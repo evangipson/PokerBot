@@ -1,22 +1,27 @@
 ﻿.poker-bot__hand {
-	display: grid;
-	grid-auto-flow: row;
-	grid-template-columns: repeat(5, 1fr);
-	grid-template-rows: repeat(2, 1fr);
+	display: flex;
+	flex-flow: row wrap;
 	gap: var(--gutter);
 	margin-top: var(--gutter-large);
+	width: 100%;
 
-	.poker-bot__card {
-		grid-row: 2;
-	}
-
-	.poker-bot__card:first-of-type, .poker-bot__card:nth-of-type(2) {
-		grid-row: 1;
+	.poker-bot__card:nth-of-type(2) {
+		margin-right: calc(var(--card-width) * 6);
 	}
 
 	&-score {
 		font-size: 22px;
 		text-align: center;
 		margin-top: 32px;
+	}
+
+	&--scored {
+		.poker-bot__card {
+			filter: brightness(0.2);
+		}
+
+		.poker-bot__card--highlight {
+			filter: brightness(1);
+		}
 	}
 }
