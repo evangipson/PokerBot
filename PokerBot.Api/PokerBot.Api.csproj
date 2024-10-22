@@ -51,10 +51,9 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Compile Remove="wwwroot\**" />
-	<None Update="wwwroot\**">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
+    <Content Update="wwwroot\*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
