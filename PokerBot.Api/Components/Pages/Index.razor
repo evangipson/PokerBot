@@ -1,5 +1,7 @@
 ﻿@page "/"
+@using PokerBot.Api.Services
 @namespace PokerBot.Api.ViewModels
+@inject IDraggableService DraggableService
 
 <PageTitle>PokerBot</PageTitle>
 
@@ -7,28 +9,30 @@
 <p>Try out your luck and draw a hand to see the best possible score.</p>
 <a class="poker-bot__button" @onclick=@OnNextCard.Invoke>@NextCardButtonText</a>
 <div class=@HandClass ondragover="event.preventDefault();">
-	@if (PlayerCards.Count > 0)
+<div class="poker-bot__hand-draw">
+	@foreach (var card in Cards.Take(2))
 	{
-		<div class="poker-bot__hand-draw">
-			@foreach (var card in PlayerCards)
-			{
-				<div class="poker-bot__card-wrapper" draggable="true" ondragover="event.preventDefault();" @ondragstart=@(() => { OnCardDrag(card); }) @ondragend=@(dragEvent => { OnPlayerCardDragEnd(dragEvent); })>
-					<Card CurrentCard=@card HandScore=@HandScore />
-				</div>
-			}
+		<div class="poker-bot__card-wrapper"
+			draggable="true"
+			ondragover="event.preventDefault();"
+			@ondragstart=@(() => { DraggableService.OnCardDrag(card); })
+			@ondragend=@(dragEvent => { DraggableService.OnPlayerCardDragEnd(dragEvent, Cards); })>
+			<Card CurrentCard=@card HandScore=@HandScore />
 		</div>
 	}
-	@if (TableCards.Count > 0)
+</div>
+<div class="poker-bot__hand-table">
+	@foreach (var card in Cards.Skip(2))
 	{
-		<div class="poker-bot__hand-table">
-			@foreach (var card in TableCards)
-			{
-				<div class="poker-bot__card-wrapper" draggable="true" ondragover="event.preventDefault();" @ondragstart=@(() => { OnCardDrag(card); }) @ondragend=@(dragEvent => { OnTableCardDragEnd(dragEvent); })>
-					<Card CurrentCard=@card HandScore=@HandScore />
-				</div>
-			}
+		<div class="poker-bot__card-wrapper"
+			draggable="true"
+			ondragover="event.preventDefault();"
+			@ondragstart=@(() => { DraggableService.OnCardDrag(card); })
+			@ondragend=@(dragEvent => { DraggableService.OnTableCardDragEnd(dragEvent, Cards); })>
+			<Card CurrentCard=@card HandScore=@HandScore />
 		</div>
 	}
+</div>
 </div>
 @if (HandScore?.Hand?.Cards.Count > 0)
 {

@@ -1,6 +1,7 @@
 ﻿using Photino.Blazor;
 
 using PokerBot.Api.Components;
+using PokerBot.Api.Services;
 using PokerBot.Logic.Factories;
 using PokerBot.Logic.Services;
 
@@ -65,7 +66,8 @@ namespace PokerBot.Api.Extensions
 				.AddScoped<ICardFactory, CardFactory>()
 				.AddScoped<IDeckFactory, DeckFactory>()
 				.AddScoped<IHandService, HandService>()
-				.AddTransient<IScoringService, ScoringService>();
+				.AddTransient<IScoringService, ScoringService>()
+				.AddScoped<IDraggableService, DraggableService>();
 		}
 	}
 }
