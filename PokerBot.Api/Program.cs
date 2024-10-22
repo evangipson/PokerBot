@@ -1,3 +1,5 @@
+using Photino.Blazor;
+
 using PokerBot.Api.Extensions;
 
 namespace PokerBot.Api
@@ -10,7 +12,8 @@ namespace PokerBot.Api
 		/// <summary>
 		/// Configures and runs the application.
 		/// </summary>
-		internal static void Main() => WebApplication.CreateBuilder()
+		[STAThread]
+		internal static void Main(string[] args) => PhotinoBlazorAppBuilder.CreateDefault(args)
 			.ConfigureBuilder()
 			.Build()
 			.ConfigureApplication()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 using PokerBot.Domain.Models;
 using PokerBot.Logic.Factories;
@@ -17,52 +18,82 @@ namespace PokerBot.Api.ViewModels
 		[Inject]
 		private IHandService? HandService { get; set; }
 
-		public List<Domain.Models.Card>? Cards;
+		private List<Domain.Models.Card>? _cards;
+		private Domain.Models.Card? _draggedCard;
 
-		public HandScore? HandScore;
+		protected HandScore? HandScore;
 
-		public bool CardsScored => HandScore?.Hand?.Cards?.Count > 0;
+		protected bool CardsScored => HandScore?.Hand?.Cards?.Count > 0;
 
-		public string HandClass => CardsScored
+		protected string HandClass => CardsScored
 			? "poker-bot__hand poker-bot__hand--scored"
 			: "poker-bot__hand";
 
-		public string? HandScoreDisplay => ScoringService?.GetHandScoreDisplay(HandScore);
+		protected string? HandScoreDisplay => ScoringService?.GetHandScoreDisplay(HandScore);
 
-		public string NextCardButtonText => Cards?.Count switch
+		protected List<Domain.Models.Card> Cards
 		{
-			0 or null => "Draw new hand",
-			<= 3 => "Show the flop",
-			<= 5 => "Show the river",
-			<= 6 => "Show the turn",
+			get => _cards ??= [];
+			set => _cards = value;
+		}
+
+		protected List<Domain.Models.Card> PlayerCards => [..Cards.Take(2)];
+
+		protected List<Domain.Models.Card> TableCards => [..Cards.Skip(2)];
+
+		protected string NextCardButtonText => Cards.Count switch
+		{
+			0 => "Draw new hand",
+			< 4 => "Show the flop",
+			< 6 => "Show the river",
+			< 7 => "Show the turn",
 			_ => HandScore == default ? "Get hand score" : "Draw new hand",
 		};
 
-		public Action OnNextCard => Cards?.Count switch
+		protected Action OnNextCard => Cards.Count switch
 		{
-			0 or null => ShowNewHand,
-			<= 3 => ShowFlop,
-			<= 5 => ShowRiver,
-			<= 6 => ShowTurn,
+			0 => ShowNewHand,
+			< 4 => ShowFlop,
+			< 6 => ShowRiver,
+			< 7 => ShowTurn,
 			_ => HandScore == default ? ScoreHand : ShowNewHand,
 		};
 
-		public void ShowFlop() => Cards?.AddRange([.. HandService!.GetFlop()]);
+		protected void ShowFlop() => Cards.AddRange([.. HandService!.GetFlop()]);
 
-		public void ShowRiver() => Cards?.Add(HandService!.GetRiver());
+		protected void ShowRiver() => Cards.Add(HandService!.GetRiver());
 
-		public void ShowTurn() => Cards?.Add(HandService!.GetTurn());
+		protected void ShowTurn() => Cards.Add(HandService!.GetTurn());
 
-		public void ScoreHand()
-		{
-			HandScore = ScoringService?.ScoreHand(Cards!);
-		}
+		protected void ScoreHand() => HandScore = ScoringService!.ScoreHand(Cards);
 
-		public void ShowNewHand()
+		protected void ShowNewHand()
 		{
 			HandScore = null;
 			DeckFactory!.ShuffleDeck();
-			Cards = HandService?.GetHand().Cards.ToList();
+			Cards = [.. HandService!.GetHand().Cards];
+		}
+
+		protected void OnCardDrag(Domain.Models.Card card) => _draggedCard = card;
+
+		protected void OnPlayerCardDragEnd(DragEventArgs dragEventArgs) => OnCardDragEnd(dragEventArgs, 0, 1);
+
+		protected void OnTableCardDragEnd(DragEventArgs dragEventArgs) => OnCardDragEnd(dragEventArgs, 2, Cards.Count);
+
+		private void OnCardDragEnd(DragEventArgs dragEventArgs, int minIndex, int maxIndex)
+		{
+			if (_draggedCard == null)
+			{
+				return;
+			}
+
+			var oldCardIndex = Cards.FindIndex(card => card.Rank == _draggedCard.Rank && card.Suit == _draggedCard.Suit);
+			var newCardIndex = dragEventArgs.OffsetX > 0
+				? oldCardIndex + (int)(dragEventArgs.OffsetX / 150)
+				: oldCardIndex + (int)(Math.Abs(dragEventArgs.OffsetX - 100) / 150) * -1;
+			Cards.Remove(_draggedCard);
+			Cards.Insert(Math.Clamp(newCardIndex, minIndex, maxIndex), _draggedCard);
+			_draggedCard = null;
 		}
 	}
 }

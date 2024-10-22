@@ -1,13 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+	<OutputType>WinExe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.SassCompiler" Version="1.80.2" />
+    <PackageReference Include="Photino.Blazor" Version="3.1.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,10 +24,6 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Styles\main.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +48,13 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Styles\base\fonts.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<Compile Remove="wwwroot\**" />
+	<None Update="wwwroot\**">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</None>
   </ItemGroup>
 
 </Project>

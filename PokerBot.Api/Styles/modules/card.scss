@@ -19,6 +19,7 @@
 	filter: brightness(1);
 	transition: transform 0.25s ease-in-out, filter 0.15s ease-in-out;
 	background: var(--font-color);
+	user-select: none;
 
 	span {
 		display: flex;

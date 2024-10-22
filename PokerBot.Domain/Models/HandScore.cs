@@ -6,7 +6,7 @@
 
 		public Score Score { get; set; }
 
-		public string? ScoreName => Score.GetName<Score>(Score);
+		public string? ScoreName => Enum.GetName(Score);
 
 		public int ScoreRank { get; set; }
 	}

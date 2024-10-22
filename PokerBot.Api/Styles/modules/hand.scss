@@ -1,18 +1,23 @@
 ﻿.poker-bot__hand {
 	display: flex;
-	flex-flow: row wrap;
+	flex-flow: column nowrap;
 	gap: var(--gutter);
 	margin-top: var(--gutter-large);
-	width: 100%;
-
-	.poker-bot__card:nth-of-type(2) {
-		margin-right: calc(var(--card-width) * 6);
-	}
+	min-width: 100%;
 
 	&-score {
 		font-size: 22px;
 		text-align: center;
 		margin-top: 32px;
+	}
+
+	&-draw,
+	&-table {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: center;
+		justify-content: center;
+		gap: var(--gutter);
 	}
 
 	&--scored {

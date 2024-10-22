@@ -119,12 +119,12 @@ namespace PokerBot.Logic.Services
 					};
 				}
 
-				logger.LogInformation($"{nameof(ScoreHand)} info: Found three-of-a-kind in hand: {string.Join(", ", threeOfAKinds)}");
+				logger.LogInformation($"{nameof(ScoreHand)} info: Found three-of-a-kind in hand: {string.Join(", ", threeOfAKinds.OrderByDescending(card => card.Rank).Take(3))}");
 				return new()
 				{
 					Hand = new()
 					{
-						Cards = threeOfAKinds.ToList()
+						Cards = [.. threeOfAKinds.OrderByDescending(card => card.Rank).Take(3)]
 					},
 					Score = Score.ThreeOfAKind,
 					ScoreRank = 6
@@ -222,19 +222,12 @@ namespace PokerBot.Logic.Services
 			_ or null => string.Empty
 		};
 
-		private List<Card> HandHasMultiples(IEnumerable<Card> hand, int multipleAmount)
+		private static List<Card> HandHasMultiples(IEnumerable<Card> hand, int multipleAmount)
 		{
 			var handGroupedByRank = hand.GroupBy(card => card.Rank);
-			string logMessage = $"{nameof(ScoreHand)} info: Found {multipleAmount}-of-a-kind in hand:";
-			if (multipleAmount == 2)
-			{
-				logMessage = $"{nameof(ScoreHand)} info: Found pair in hand:";
-			}
-
 			List<Card> multipleHands = [];
 			foreach (var rankGroup in handGroupedByRank.Where(group => group.Count() >= multipleAmount))
 			{
-				//_logger.LogInformation($"{logMessage} {string.Join(", ", rankGroup)}");
 				multipleHands.AddRange(rankGroup);
 			}
 
@@ -284,10 +277,10 @@ namespace PokerBot.Logic.Services
 			{
 				if (suitCollection.Count() >= 5)
 				{
-					//_logger.LogInformation($"{nameof(ScoreHand)} info: Found a flush in hand: {string.Join(", ", suitCollection)}");
 					return [.. suitCollection];
 				}
 			}
+
 			return [];
 		}
 	}

@@ -9,3 +9,8 @@ p, h1, h2, h3, h4, h5, h6, ul, ol, a {
 	padding: 0;
 	margin: 0;
 }
+
+/* blazor routing uses a FocusOnNavigate for h1 by default, this will hide the outline. */
+h1:focus {
+	outline: none;
+}
